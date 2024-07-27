@@ -1,0 +1,215 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+# GitHub recommends pinning actions to a commit SHA.
+# To get a newer version, you will need to update the SHA.
+# You can also reference a tag or branch, but the action may change without warning.
+
+name: Publish Docker image
+
+on:
+  push:
+    branches: ["learn-1.8.22"]
+  pull_request:
+    branches: ["learn-1.8.22"]
+
+jobs:
+  push_to_registry:
+    name: Push Docker image to Docker Hub
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+      attestations: write
+      id-token: write
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push Docker image 1
+        id: push1
+        uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
+        with:
+          context: ./learn/Legacy-v1/03-Installation/03-Standalone-Deployment/
+          file: ./learn/Legacy-v1/03-Installation/03-Standalone-Deployment/Dockerfile
+          push: true
+          build-args: BASE_IMAGE=gcr.io/google-containers/busybox
+          tags: lanzhiwang/pipeline-busybox
+
+      - name: Build and push Docker image 2
+        id: push2
+        uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
+        with:
+          context: ./learn/Legacy-v1/03-Installation/03-Standalone-Deployment/
+          file: ./learn/Legacy-v1/03-Installation/03-Standalone-Deployment/Dockerfile
+          push: true
+          build-args: BASE_IMAGE=gcr.io/ml-pipeline/cache-deployer:1.7.0
+          tags: lanzhiwang/pipeline-cache-deployer:1.7.0
+
+      - name: Build and push Docker image 3
+        id: push3
+        uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
+        with:
+          context: ./learn/Legacy-v1/03-Installation/03-Standalone-Deployment/
+          file: ./learn/Legacy-v1/03-Installation/03-Standalone-Deployment/Dockerfile
+          push: true
+          build-args: BASE_IMAGE=gcr.io/ml-pipeline/cache-server:1.7.0
+          tags: lanzhiwang/pipeline-cache-server:1.7.0
+
+      - name: Build and push Docker image 4
+        id: push4
+        uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
+        with:
+          context: ./learn/Legacy-v1/03-Installation/03-Standalone-Deployment/
+          file: ./learn/Legacy-v1/03-Installation/03-Standalone-Deployment/Dockerfile
+          push: true
+          build-args: BASE_IMAGE=gcr.io/ml-pipeline/application-crd-controller:1.0-beta-non-cluster-role
+          tags: lanzhiwang/pipeline-application-crd-controller:1.0-beta-non-cluster-role
+
+      - name: Build and push Docker image 5
+        id: push5
+        uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
+        with:
+          context: ./learn/Legacy-v1/03-Installation/03-Standalone-Deployment/
+          file: ./learn/Legacy-v1/03-Installation/03-Standalone-Deployment/Dockerfile
+          push: true
+          build-args: BASE_IMAGE=gcr.io/ml-pipeline/metadata-envoy:1.7.0
+          tags: lanzhiwang/pipeline-metadata-envoy:1.7.0
+
+      - name: Build and push Docker image 6
+        id: push6
+        uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
+        with:
+          context: ./learn/Legacy-v1/03-Installation/03-Standalone-Deployment/
+          file: ./learn/Legacy-v1/03-Installation/03-Standalone-Deployment/Dockerfile
+          push: true
+          build-args: BASE_IMAGE=gcr.io/tfx-oss-public/ml_metadata_store_server:1.2.0
+          tags: lanzhiwang/pipeline-ml_metadata_store_server:1.2.0
+
+      - name: Build and push Docker image 7
+        id: push7
+        uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
+        with:
+          context: ./learn/Legacy-v1/03-Installation/03-Standalone-Deployment/
+          file: ./learn/Legacy-v1/03-Installation/03-Standalone-Deployment/Dockerfile
+          push: true
+          build-args: BASE_IMAGE=gcr.io/ml-pipeline/metadata-writer:1.7.0
+          tags: lanzhiwang/pipeline-metadata-writer:1.7.0
+
+      - name: Build and push Docker image 8
+        id: push8
+        uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
+        with:
+          context: ./learn/Legacy-v1/03-Installation/03-Standalone-Deployment/
+          file: ./learn/Legacy-v1/03-Installation/03-Standalone-Deployment/Dockerfile
+          push: true
+          build-args: BASE_IMAGE=gcr.io/ml-pipeline/minio:RELEASE.2019-08-14T20-37-41Z-license-compliance
+          tags: lanzhiwang/pipeline-minio:RELEASE.2019-08-14T20-37-41Z-license-compliance
+
+      - name: Build and push Docker image 9
+        id: push9
+        uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
+        with:
+          context: ./learn/Legacy-v1/03-Installation/03-Standalone-Deployment/
+          file: ./learn/Legacy-v1/03-Installation/03-Standalone-Deployment/Dockerfile
+          push: true
+          build-args: BASE_IMAGE=gcr.io/ml-pipeline/api-server:1.7.0
+          tags: lanzhiwang/pipeline-api-server:1.7.0
+
+      - name: Build and push Docker image 10
+        id: push10
+        uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
+        with:
+          context: ./learn/Legacy-v1/03-Installation/03-Standalone-Deployment/
+          file: ./learn/Legacy-v1/03-Installation/03-Standalone-Deployment/Dockerfile
+          push: true
+          build-args: BASE_IMAGE=gcr.io/ml-pipeline/persistenceagent:1.7.0
+          tags: lanzhiwang/pipeline-persistenceagent:1.7.0
+
+      - name: Build and push Docker image 11
+        id: push11
+        uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
+        with:
+          context: ./learn/Legacy-v1/03-Installation/03-Standalone-Deployment/
+          file: ./learn/Legacy-v1/03-Installation/03-Standalone-Deployment/Dockerfile
+          push: true
+          build-args: BASE_IMAGE=gcr.io/ml-pipeline/scheduledworkflow:1.7.0
+          tags: lanzhiwang/pipeline-scheduledworkflow:1.7.0
+
+      - name: Build and push Docker image 12
+        id: push12
+        uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
+        with:
+          context: ./learn/Legacy-v1/03-Installation/03-Standalone-Deployment/
+          file: ./learn/Legacy-v1/03-Installation/03-Standalone-Deployment/Dockerfile
+          push: true
+          build-args: BASE_IMAGE=gcr.io/ml-pipeline/frontend:1.7.0
+          tags: lanzhiwang/pipeline-frontend:1.7.0
+
+      - name: Build and push Docker image 13
+        id: push13
+        uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
+        with:
+          context: ./learn/Legacy-v1/03-Installation/03-Standalone-Deployment/
+          file: ./learn/Legacy-v1/03-Installation/03-Standalone-Deployment/Dockerfile
+          push: true
+          build-args: BASE_IMAGE=gcr.io/ml-pipeline/viewer-crd-controller:1.7.0
+          tags: lanzhiwang/pipeline-viewer-crd-controller:1.7.0
+
+      - name: Build and push Docker image 14
+        id: push14
+        uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
+        with:
+          context: ./learn/Legacy-v1/03-Installation/03-Standalone-Deployment/
+          file: ./learn/Legacy-v1/03-Installation/03-Standalone-Deployment/Dockerfile
+          push: true
+          build-args: BASE_IMAGE=gcr.io/ml-pipeline/visualization-server:1.7.0
+          tags: lanzhiwang/pipeline-visualization-server:1.7.0
+
+      - name: Build and push Docker image 15
+        id: push15
+        uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
+        with:
+          context: ./learn/Legacy-v1/03-Installation/03-Standalone-Deployment/
+          file: ./learn/Legacy-v1/03-Installation/03-Standalone-Deployment/Dockerfile
+          push: true
+          build-args: BASE_IMAGE=gcr.io/ml-pipeline/mysql:5.7
+          tags: lanzhiwang/pipeline-mysql:5.7
+
+      - name: Build and push Docker image 16
+        id: push16
+        uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
+        with:
+          context: ./learn/Legacy-v1/03-Installation/03-Standalone-Deployment/
+          file: ./learn/Legacy-v1/03-Installation/03-Standalone-Deployment/Dockerfile
+          push: true
+          build-args: BASE_IMAGE=gcr.io/ml-pipeline/inverse-proxy-agent:1.7.0
+          tags: lanzhiwang/pipeline-inverse-proxy-agent:1.7.0
+
+      - name: Build and push Docker image 17
+        id: push17
+        uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
+        with:
+          context: ./learn/Legacy-v1/03-Installation/03-Standalone-Deployment/
+          file: ./learn/Legacy-v1/03-Installation/03-Standalone-Deployment/Dockerfile
+          push: true
+          build-args: BASE_IMAGE=gcr.io/ml-pipeline/argoexec:v3.1.6-patch-license-compliance
+          tags: lanzhiwang/pipeline-argoexec:v3.1.6-patch-license-compliance
+
+      - name: Build and push Docker image 18
+        id: push18
+        uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
+        with:
+          context: ./learn/Legacy-v1/03-Installation/03-Standalone-Deployment/
+          file: ./learn/Legacy-v1/03-Installation/03-Standalone-Deployment/Dockerfile
+          push: true
+          build-args: BASE_IMAGE=gcr.io/ml-pipeline/workflow-controller:v3.1.6-patch-license-compliance
+          tags: lanzhiwang/pipeline-workflow-controller:v3.1.6-patch-license-compliance

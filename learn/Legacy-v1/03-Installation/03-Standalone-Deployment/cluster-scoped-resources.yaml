@@ -1,0 +1,690 @@
+# $ kustomize build ~/work/code/go_code/ai/kubeflow/pipelines/manifests/kustomize/cluster-scoped-resources > learn/Legacy-v1/03-Installation/03-Standalone-Deployment/cluster-scoped-resources.yaml
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    alpha.config.kubernetes.io/transformations: |
+      - configuredIn: kustomization.yaml
+        configuredBy:
+          apiVersion: builtin
+          kind: NamespaceTransformer
+    config.kubernetes.io/origin: |
+      path: namespace.yaml
+  labels:
+    app.kubernetes.io/managed-by: kustomize-v5.4.2
+  name: kubeflow
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    alpha.config.kubernetes.io/transformations: |
+      - configuredIn: kustomization.yaml
+        configuredBy:
+          apiVersion: builtin
+          kind: NamespaceTransformer
+    config.kubernetes.io/origin: |
+      path: ../third-party/argo/upstream/manifests/base/crds/minimal/argoproj.io_clusterworkflowtemplates.yaml
+  labels:
+    app.kubernetes.io/managed-by: kustomize-v5.4.2
+  name: clusterworkflowtemplates.argoproj.io
+spec:
+  group: argoproj.io
+  names:
+    kind: ClusterWorkflowTemplate
+    listKind: ClusterWorkflowTemplateList
+    plural: clusterworkflowtemplates
+    shortNames:
+      - clusterwftmpl
+      - cwft
+    singular: clusterworkflowtemplate
+  scope: Cluster
+  versions:
+    - name: v1alpha1
+      schema:
+        openAPIV3Schema:
+          properties:
+            apiVersion:
+              type: string
+            kind:
+              type: string
+            metadata:
+              type: object
+            spec:
+              type: object
+              x-kubernetes-map-type: atomic
+              x-kubernetes-preserve-unknown-fields: true
+          required:
+            - metadata
+            - spec
+          type: object
+      served: true
+      storage: true
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    alpha.config.kubernetes.io/transformations: |
+      - configuredIn: kustomization.yaml
+        configuredBy:
+          apiVersion: builtin
+          kind: NamespaceTransformer
+    config.kubernetes.io/origin: |
+      path: ../third-party/argo/upstream/manifests/base/crds/minimal/argoproj.io_cronworkflows.yaml
+  labels:
+    app.kubernetes.io/managed-by: kustomize-v5.4.2
+  name: cronworkflows.argoproj.io
+spec:
+  group: argoproj.io
+  names:
+    kind: CronWorkflow
+    listKind: CronWorkflowList
+    plural: cronworkflows
+    shortNames:
+      - cwf
+      - cronwf
+    singular: cronworkflow
+  scope: Namespaced
+  versions:
+    - name: v1alpha1
+      schema:
+        openAPIV3Schema:
+          properties:
+            apiVersion:
+              type: string
+            kind:
+              type: string
+            metadata:
+              type: object
+            spec:
+              type: object
+              x-kubernetes-map-type: atomic
+              x-kubernetes-preserve-unknown-fields: true
+            status:
+              type: object
+              x-kubernetes-map-type: atomic
+              x-kubernetes-preserve-unknown-fields: true
+          required:
+            - metadata
+            - spec
+          type: object
+      served: true
+      storage: true
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    alpha.config.kubernetes.io/transformations: |
+      - configuredIn: kustomization.yaml
+        configuredBy:
+          apiVersion: builtin
+          kind: NamespaceTransformer
+    config.kubernetes.io/origin: |
+      path: ../base/pipeline/cluster-scoped/scheduled-workflow-crd.yaml
+  labels:
+    app.kubernetes.io/managed-by: kustomize-v5.4.2
+  name: scheduledworkflows.kubeflow.org
+spec:
+  group: kubeflow.org
+  names:
+    kind: ScheduledWorkflow
+    listKind: ScheduledWorkflowList
+    plural: scheduledworkflows
+    shortNames:
+      - swf
+    singular: scheduledworkflow
+  scope: Namespaced
+  versions:
+    - name: v1beta1
+      schema:
+        openAPIV3Schema:
+          properties:
+            apiVersion:
+              type: string
+            kind:
+              type: string
+            metadata:
+              type: object
+            spec:
+              type: object
+              x-kubernetes-map-type: atomic
+              x-kubernetes-preserve-unknown-fields: true
+            status:
+              type: object
+              x-kubernetes-map-type: atomic
+              x-kubernetes-preserve-unknown-fields: true
+          required:
+            - spec
+            - status
+          type: object
+      served: true
+      storage: true
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    alpha.config.kubernetes.io/transformations: |
+      - configuredIn: kustomization.yaml
+        configuredBy:
+          apiVersion: builtin
+          kind: NamespaceTransformer
+    config.kubernetes.io/origin: |
+      path: ../base/pipeline/cluster-scoped/viewer-crd.yaml
+  labels:
+    app.kubernetes.io/managed-by: kustomize-v5.4.2
+  name: viewers.kubeflow.org
+spec:
+  group: kubeflow.org
+  names:
+    kind: Viewer
+    listKind: ViewerList
+    plural: viewers
+    shortNames:
+      - vi
+    singular: viewer
+  scope: Namespaced
+  versions:
+    - name: v1beta1
+      schema:
+        openAPIV3Schema:
+          properties:
+            apiVersion:
+              type: string
+            kind:
+              type: string
+            metadata:
+              type: object
+            spec:
+              type: object
+              x-kubernetes-map-type: atomic
+              x-kubernetes-preserve-unknown-fields: true
+          required:
+            - spec
+          type: object
+      served: true
+      storage: true
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    alpha.config.kubernetes.io/transformations: |
+      - configuredIn: kustomization.yaml
+        configuredBy:
+          apiVersion: builtin
+          kind: NamespaceTransformer
+    config.kubernetes.io/origin: |
+      path: ../third-party/argo/upstream/manifests/base/crds/minimal/argoproj.io_workfloweventbindings.yaml
+  labels:
+    app.kubernetes.io/managed-by: kustomize-v5.4.2
+  name: workfloweventbindings.argoproj.io
+spec:
+  group: argoproj.io
+  names:
+    kind: WorkflowEventBinding
+    listKind: WorkflowEventBindingList
+    plural: workfloweventbindings
+    shortNames:
+      - wfeb
+    singular: workfloweventbinding
+  scope: Namespaced
+  versions:
+    - name: v1alpha1
+      schema:
+        openAPIV3Schema:
+          properties:
+            apiVersion:
+              type: string
+            kind:
+              type: string
+            metadata:
+              type: object
+            spec:
+              type: object
+              x-kubernetes-map-type: atomic
+              x-kubernetes-preserve-unknown-fields: true
+          required:
+            - metadata
+            - spec
+          type: object
+      served: true
+      storage: true
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    alpha.config.kubernetes.io/transformations: |
+      - configuredIn: kustomization.yaml
+        configuredBy:
+          apiVersion: builtin
+          kind: NamespaceTransformer
+    config.kubernetes.io/origin: |
+      path: ../third-party/argo/upstream/manifests/base/crds/minimal/argoproj.io_workflows.yaml
+  labels:
+    app.kubernetes.io/managed-by: kustomize-v5.4.2
+  name: workflows.argoproj.io
+spec:
+  group: argoproj.io
+  names:
+    kind: Workflow
+    listKind: WorkflowList
+    plural: workflows
+    shortNames:
+      - wf
+    singular: workflow
+  scope: Namespaced
+  versions:
+    - additionalPrinterColumns:
+        - description: Status of the workflow
+          jsonPath: .status.phase
+          name: Status
+          type: string
+        - description: When the workflow was started
+          format: date-time
+          jsonPath: .status.startedAt
+          name: Age
+          type: date
+      name: v1alpha1
+      schema:
+        openAPIV3Schema:
+          properties:
+            apiVersion:
+              type: string
+            kind:
+              type: string
+            metadata:
+              type: object
+            spec:
+              type: object
+              x-kubernetes-map-type: atomic
+              x-kubernetes-preserve-unknown-fields: true
+            status:
+              type: object
+              x-kubernetes-map-type: atomic
+              x-kubernetes-preserve-unknown-fields: true
+          required:
+            - metadata
+            - spec
+          type: object
+      served: true
+      storage: true
+      subresources: {}
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    alpha.config.kubernetes.io/transformations: |
+      - configuredIn: kustomization.yaml
+        configuredBy:
+          apiVersion: builtin
+          kind: NamespaceTransformer
+    config.kubernetes.io/origin: |
+      path: ../third-party/argo/upstream/manifests/base/crds/minimal/argoproj.io_workflowtemplates.yaml
+  labels:
+    app.kubernetes.io/managed-by: kustomize-v5.4.2
+  name: workflowtemplates.argoproj.io
+spec:
+  group: argoproj.io
+  names:
+    kind: WorkflowTemplate
+    listKind: WorkflowTemplateList
+    plural: workflowtemplates
+    shortNames:
+      - wftmpl
+    singular: workflowtemplate
+  scope: Namespaced
+  versions:
+    - name: v1alpha1
+      schema:
+        openAPIV3Schema:
+          properties:
+            apiVersion:
+              type: string
+            kind:
+              type: string
+            metadata:
+              type: object
+            spec:
+              type: object
+              x-kubernetes-map-type: atomic
+              x-kubernetes-preserve-unknown-fields: true
+          required:
+            - metadata
+            - spec
+          type: object
+      served: true
+      storage: true
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    alpha.config.kubernetes.io/transformations: |
+      - configuredIn: kustomization.yaml
+        configuredBy:
+          apiVersion: builtin
+          kind: NamespaceTransformer
+    config.kubernetes.io/origin: |
+      path: ../third-party/application/cluster-scoped/application-crd.yaml
+  labels:
+    app.kubernetes.io/managed-by: kustomize-v5.4.2
+    controller-tools.k8s.io: "1.0"
+  name: applications.app.k8s.io
+spec:
+  group: app.k8s.io
+  names:
+    kind: Application
+    plural: applications
+  scope: Namespaced
+  validation:
+    openAPIV3Schema:
+      properties:
+        apiVersion:
+          type: string
+        kind:
+          type: string
+        metadata:
+          type: object
+        spec:
+          properties:
+            addOwnerRef:
+              type: boolean
+            assemblyPhase:
+              type: string
+            componentKinds:
+              items:
+                type: object
+              type: array
+            descriptor:
+              properties:
+                description:
+                  type: string
+                icons:
+                  items:
+                    properties:
+                      size:
+                        type: string
+                      src:
+                        type: string
+                      type:
+                        type: string
+                    required:
+                      - src
+                    type: object
+                  type: array
+                keywords:
+                  items:
+                    type: string
+                  type: array
+                links:
+                  items:
+                    properties:
+                      description:
+                        type: string
+                      url:
+                        type: string
+                    type: object
+                  type: array
+                maintainers:
+                  items:
+                    properties:
+                      email:
+                        type: string
+                      name:
+                        type: string
+                      url:
+                        type: string
+                    type: object
+                  type: array
+                notes:
+                  type: string
+                owners:
+                  items:
+                    properties:
+                      email:
+                        type: string
+                      name:
+                        type: string
+                      url:
+                        type: string
+                    type: object
+                  type: array
+                type:
+                  type: string
+                version:
+                  type: string
+              type: object
+            info:
+              items:
+                properties:
+                  name:
+                    type: string
+                  type:
+                    type: string
+                  value:
+                    type: string
+                  valueFrom:
+                    properties:
+                      configMapKeyRef:
+                        properties:
+                          apiVersion:
+                            type: string
+                          fieldPath:
+                            type: string
+                          key:
+                            type: string
+                          kind:
+                            type: string
+                          name:
+                            type: string
+                          namespace:
+                            type: string
+                          resourceVersion:
+                            type: string
+                          uid:
+                            type: string
+                        type: object
+                      ingressRef:
+                        properties:
+                          apiVersion:
+                            type: string
+                          fieldPath:
+                            type: string
+                          host:
+                            type: string
+                          kind:
+                            type: string
+                          name:
+                            type: string
+                          namespace:
+                            type: string
+                          path:
+                            type: string
+                          resourceVersion:
+                            type: string
+                          uid:
+                            type: string
+                        type: object
+                      secretKeyRef:
+                        properties:
+                          apiVersion:
+                            type: string
+                          fieldPath:
+                            type: string
+                          key:
+                            type: string
+                          kind:
+                            type: string
+                          name:
+                            type: string
+                          namespace:
+                            type: string
+                          resourceVersion:
+                            type: string
+                          uid:
+                            type: string
+                        type: object
+                      serviceRef:
+                        properties:
+                          apiVersion:
+                            type: string
+                          fieldPath:
+                            type: string
+                          kind:
+                            type: string
+                          name:
+                            type: string
+                          namespace:
+                            type: string
+                          path:
+                            type: string
+                          port:
+                            format: int32
+                            type: integer
+                          resourceVersion:
+                            type: string
+                          uid:
+                            type: string
+                        type: object
+                      type:
+                        type: string
+                    type: object
+                type: object
+              type: array
+            selector:
+              type: object
+          type: object
+        status:
+          properties:
+            components:
+              items:
+                properties:
+                  group:
+                    type: string
+                  kind:
+                    type: string
+                  link:
+                    type: string
+                  name:
+                    type: string
+                  status:
+                    type: string
+                type: object
+              type: array
+            conditions:
+              items:
+                properties:
+                  lastTransitionTime:
+                    format: date-time
+                    type: string
+                  lastUpdateTime:
+                    format: date-time
+                    type: string
+                  message:
+                    type: string
+                  reason:
+                    type: string
+                  status:
+                    type: string
+                  type:
+                    type: string
+                required:
+                  - type
+                  - status
+                type: object
+              type: array
+            observedGeneration:
+              format: int64
+              type: integer
+          type: object
+  version: v1beta1
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  annotations:
+    alpha.config.kubernetes.io/transformations: |
+      - configuredIn: kustomization.yaml
+        configuredBy:
+          apiVersion: builtin
+          kind: NamespaceTransformer
+    config.kubernetes.io/origin: |
+      path: ../base/cache-deployer/cluster-scoped/cache-deployer-sa.yaml
+  labels:
+    app.kubernetes.io/managed-by: kustomize-v5.4.2
+  name: kubeflow-pipelines-cache-deployer-sa
+  namespace: kubeflow
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  annotations:
+    alpha.config.kubernetes.io/transformations: |
+      - configuredIn: kustomization.yaml
+        configuredBy:
+          apiVersion: builtin
+          kind: NamespaceTransformer
+    config.kubernetes.io/origin: |
+      path: ../base/cache-deployer/cluster-scoped/cache-deployer-clusterrole.yaml
+  labels:
+    app: kubeflow-pipelines-cache-deployer-clusterrole
+    app.kubernetes.io/managed-by: kustomize-v5.4.2
+  name: kubeflow-pipelines-cache-deployer-clusterrole
+rules:
+  - apiGroups:
+      - certificates.k8s.io
+    resources:
+      - certificatesigningrequests
+      - certificatesigningrequests/approval
+    verbs:
+      - create
+      - delete
+      - get
+      - update
+  - apiGroups:
+      - admissionregistration.k8s.io
+    resources:
+      - mutatingwebhookconfigurations
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+  - apiGroups:
+      - certificates.k8s.io
+    resourceNames:
+      - kubernetes.io/*
+    resources:
+      - signers
+    verbs:
+      - approve
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  annotations:
+    alpha.config.kubernetes.io/transformations: |
+      - configuredIn: kustomization.yaml
+        configuredBy:
+          apiVersion: builtin
+          kind: NamespaceTransformer
+    config.kubernetes.io/origin: |
+      path: ../base/cache-deployer/cluster-scoped/cache-deployer-clusterrolebinding.yaml
+  labels:
+    app.kubernetes.io/managed-by: kustomize-v5.4.2
+  name: kubeflow-pipelines-cache-deployer-clusterrolebinding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: kubeflow-pipelines-cache-deployer-clusterrole
+subjects:
+  - kind: ServiceAccount
+    name: kubeflow-pipelines-cache-deployer-sa
+    namespace: kubeflow

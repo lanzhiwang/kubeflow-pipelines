@@ -25,3 +25,5 @@ vars:
     fieldpath: metadata.namespace
 configurations:
 - params.yaml
+
+buildMetadata: [managedByLabel, originAnnotations, transformerAnnotations]
