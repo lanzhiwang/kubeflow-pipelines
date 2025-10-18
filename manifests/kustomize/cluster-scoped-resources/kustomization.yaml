@@ -1,6 +1,10 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
+# BuildMetadata is a list of strings used to toggle different build options
+# BuildMetadata []string `json:"buildMetadata,omitempty" yaml:"buildMetadata,omitempty"`
+buildMetadata: [managedByLabel, originAnnotations, transformerAnnotations]
+
 namespace: kubeflow
 
 resources:
