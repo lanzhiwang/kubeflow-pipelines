@@ -1,0 +1,23 @@
+ghcr.io/kubeflow/kfp-cache-deployer:master
+ghcr.io/kubeflow/kfp-cache-server:master
+ghcr.io/kubeflow/kfp-metadata-envoy:master
+ghcr.io/kubeflow/kfp-metadata-writer:master
+ghcr.io/kubeflow/kfp-api-server:master
+ghcr.io/kubeflow/kfp-persistence-agent:master
+ghcr.io/kubeflow/kfp-scheduled-workflow-controller:master
+ghcr.io/kubeflow/kfp-frontend:master
+ghcr.io/kubeflow/kfp-viewer-crd-controller:master
+ghcr.io/kubeflow/kfp-visualization-server:master
+ghcr.io/kubeflow/kfp-inverse-proxy-agent:master
+gcr.io/ml-pipeline/application-crd-controller:20231101
+gcr.io/tfx-oss-public/ml_metadata_store_server:1.14.0
+gcr.io/ml-pipeline/minio:RELEASE.2019-08-14T20-37-41Z-license-compliance
+quay.io/argoproj/workflow-controller:v3.6.7
+# mysql:8.4
+docker.io/library/mysql:8.4
+# rancher/local-path-provisioner:v0.0.32
+docker.io/rancher/local-path-provisioner:v0.0.32
+# busybox:latest
+docker.io/library/busybox:latest
+# python:3.9
+docker.io/library/python:3.9

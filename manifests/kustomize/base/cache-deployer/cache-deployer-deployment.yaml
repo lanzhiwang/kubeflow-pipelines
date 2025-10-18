@@ -19,7 +19,7 @@ spec:
       containers:
       - name: main
         image: ghcr.io/kubeflow/kfp-cache-deployer:dummy
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         env:
         - name: NAMESPACE_TO_WATCH
           valueFrom:
