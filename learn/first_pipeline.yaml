@@ -45,7 +45,7 @@ deploymentSpec:
         - "\nimport kfp\nfrom kfp import dsl\nfrom kfp.dsl import *\nfrom typing import\
           \ *\n\ndef say_hello(name: str) -> str:\n    hello_text = f'Hello, {name}!'\n\
           \    print(hello_text)\n    return hello_text\n\n"
-        image: python:3.9
+        image: docker.io/library/python:3.9
 pipelineInfo:
   name: hello-pipeline
 root:
